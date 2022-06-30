@@ -5,7 +5,9 @@ import br.com.api.escola.repository.IAlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlunoService {
@@ -20,4 +22,12 @@ public class AlunoService {
     public List<Aluno> listarAlunos(){
         return iAlunoRepository.findAll();
     }
+    public Optional<Aluno> buscarPorId(Long id){
+        return iAlunoRepository.findById(id);
+    }
+
+    public void removerAlunoPorId(Long id){
+        iAlunoRepository.deleteById(id);
+    }
+
 }
