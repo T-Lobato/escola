@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/alunos")
 public class AlunoController {
@@ -17,6 +19,12 @@ public class AlunoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Aluno salvar(@RequestBody Aluno aluno){
         return alunoService.salvar(aluno);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Aluno> listarAlunos(){
+        return alunoService.listarAlunos();
     }
 
 
