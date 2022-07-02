@@ -2,6 +2,7 @@ package br.com.api.escola.controller;
 
 import br.com.api.escola.model.Aluno;
 import br.com.api.escola.service.AlunoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,7 +48,14 @@ public class AlunoController {
                     return Void.TYPE;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
     }
-
-
-
+    @PutMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void alterarAluno(@RequestBody Aluno alunoAlterado, @PathVariable("id") Long id){
+        alunoService.buscarPorId(id)
+                .map(alunoBase -> {
+                    modelMapper.map(alunoAlterado, alunoBase);
+                    alunoService.salvar(alunoBase);
+                    return Void.TYPE;
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado."));
+    }
 }
